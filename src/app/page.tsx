@@ -4,8 +4,8 @@ export default function Home() {
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <h1 className="text-3xl font-bold text-center">Dota 2 Joke Generator</h1>
-        <p className="text-center">Generating hilarious Dota 2 jokes with AI!</p>
+        <h1 className="text-3xl font-bold text-center bg-gradient-to-r from-purple-600 to-red-600 bg-clip-text text-transparent">Dota 2 Joke Generator</h1>
+        <p className="text-center text-lg">Generating hilarious Dota 2 jokes with AI!</p>
         
         <Image
           className="dark:invert"
