@@ -1,6 +1,6 @@
 # Dota 2 Joke Generator - Tasks
 
-## Project Status: Planning & Setup Phase
+## Project Status: Development Phase
 
 ### Completed Tasks
 - [x] Create project plan (PROJECT_PLAN.md)
@@ -14,18 +14,19 @@
 - [x] Initialize Next.js project with TypeScript - March 10, 2023
 - [x] Configure Tailwind CSS - March 10, 2023
 - [x] Setup basic project structure - March 10, 2023
+- [x] Create GitHub repository - March 10, 2023
+- [x] Push planning documents to GitHub - March 10, 2023
+- [x] Setup project on Vercel via web interface - March 10, 2023
+- [x] Configure Vercel deployment - March 10, 2023
 
 ### Current Sprint
-- [ ] Create GitHub repository
-- [ ] Push planning documents to GitHub
-- [ ] Configure Vercel deployment via MCP
 - [ ] Create TypeScript interfaces for heroes, jokes, scenarios
-- [ ] Setup project on Vercel via MCP
-
-### Upcoming Tasks
 - [ ] Create mock data for heroes in TypeScript format
 - [ ] Implement joke templates in TypeScript
 - [ ] Create scenarios data
+- [ ] Organize project files and structure
+
+### Upcoming Tasks
 - [ ] Implement basic components (Layout, Button)
 - [ ] Create hero selection component
 - [ ] Create scenario selection component
@@ -42,8 +43,8 @@
 - [ ] Performance optimizations
 
 ## Task Assignment for Next Session
-1. Create GitHub repository
-2. Push initial code including planning documents
-3. Setup project on Vercel via MCP
-4. Configure Vercel deployment via MCP
-5. Create TypeScript interfaces for heroes, jokes, scenarios 
+1. Create TypeScript interfaces for heroes, jokes, scenarios
+2. Create mock data for heroes in TypeScript format
+3. Implement joke templates in TypeScript
+4. Create scenarios data
+5. Customize the home page with a Dota 2 theme 
