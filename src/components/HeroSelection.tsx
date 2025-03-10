@@ -35,6 +35,32 @@ export default function HeroSelection({ onHeroSelect, selectedHeroes }: HeroSele
     universal: heroes.filter(h => h.attribute === 'universal').length,
   };
 
+  // Get a random hero that isn't already selected
+  const getRandomHero = () => {
+    const availableHeroes = heroes.filter(hero => !isHeroSelected(hero.id));
+    if (availableHeroes.length === 0) return;
+    
+    const randomIndex = Math.floor(Math.random() * availableHeroes.length);
+    onHeroSelect(availableHeroes[randomIndex]);
+  };
+
+  // Get the hero image URL
+  const getHeroImageUrl = (heroId: string) => {
+    // Try to use the actual hero image if it exists, otherwise use a placeholder
+    return `/images/heroes/${heroId.toLowerCase()}.png`;
+  };
+
+  // Get attribute color
+  const getAttributeColor = (attribute: string) => {
+    switch(attribute) {
+      case 'strength': return 'bg-red-900 text-red-300';
+      case 'agility': return 'bg-green-900 text-green-300';
+      case 'intelligence': return 'bg-blue-900 text-blue-300';
+      case 'universal': return 'bg-purple-900 text-purple-300';
+      default: return 'bg-gray-800 text-gray-300';
+    }
+  };
+
   return (
     <div className="bg-gray-800 rounded-lg p-6 mb-6">
       <h2 className="text-xl font-bold mb-4 text-red-400">Select Heroes</h2>
@@ -50,38 +76,48 @@ export default function HeroSelection({ onHeroSelect, selectedHeroes }: HeroSele
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-        <div className="flex space-x-2">
+        <div className="flex-shrink-0">
           <button
-            onClick={() => setFilter('all')}
-            className={`px-3 py-1 rounded-lg ${filter === 'all' ? 'bg-red-700 text-white' : 'bg-gray-700 text-gray-300'}`}
+            onClick={getRandomHero}
+            className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg text-white flex items-center"
           >
-            All ({attributeCounts.all})
-          </button>
-          <button
-            onClick={() => setFilter('strength')}
-            className={`px-3 py-1 rounded-lg ${filter === 'strength' ? 'bg-red-700 text-white' : 'bg-gray-700 text-gray-300'}`}
-          >
-            STR ({attributeCounts.strength})
-          </button>
-          <button
-            onClick={() => setFilter('agility')}
-            className={`px-3 py-1 rounded-lg ${filter === 'agility' ? 'bg-green-700 text-white' : 'bg-gray-700 text-gray-300'}`}
-          >
-            AGI ({attributeCounts.agility})
-          </button>
-          <button
-            onClick={() => setFilter('intelligence')}
-            className={`px-3 py-1 rounded-lg ${filter === 'intelligence' ? 'bg-blue-700 text-white' : 'bg-gray-700 text-gray-300'}`}
-          >
-            INT ({attributeCounts.intelligence})
-          </button>
-          <button
-            onClick={() => setFilter('universal')}
-            className={`px-3 py-1 rounded-lg ${filter === 'universal' ? 'bg-purple-700 text-white' : 'bg-gray-700 text-gray-300'}`}
-          >
-            UNI ({attributeCounts.universal})
+            <span className="mr-2">🎲</span> Random Hero
           </button>
         </div>
+      </div>
+
+      {/* Attribute filters */}
+      <div className="flex flex-wrap gap-2 mb-6">
+        <button
+          onClick={() => setFilter('all')}
+          className={`px-3 py-1 rounded-lg ${filter === 'all' ? 'bg-red-700 text-white' : 'bg-gray-700 text-gray-300'}`}
+        >
+          All ({attributeCounts.all})
+        </button>
+        <button
+          onClick={() => setFilter('strength')}
+          className={`px-3 py-1 rounded-lg ${filter === 'strength' ? 'bg-red-700 text-white' : 'bg-gray-700 text-gray-300'}`}
+        >
+          STR ({attributeCounts.strength})
+        </button>
+        <button
+          onClick={() => setFilter('agility')}
+          className={`px-3 py-1 rounded-lg ${filter === 'agility' ? 'bg-green-700 text-white' : 'bg-gray-700 text-gray-300'}`}
+        >
+          AGI ({attributeCounts.agility})
+        </button>
+        <button
+          onClick={() => setFilter('intelligence')}
+          className={`px-3 py-1 rounded-lg ${filter === 'intelligence' ? 'bg-blue-700 text-white' : 'bg-gray-700 text-gray-300'}`}
+        >
+          INT ({attributeCounts.intelligence})
+        </button>
+        <button
+          onClick={() => setFilter('universal')}
+          className={`px-3 py-1 rounded-lg ${filter === 'universal' ? 'bg-purple-700 text-white' : 'bg-gray-700 text-gray-300'}`}
+        >
+          UNI ({attributeCounts.universal})
+        </button>
       </div>
 
       {/* Selected heroes display */}
@@ -101,7 +137,7 @@ export default function HeroSelection({ onHeroSelect, selectedHeroes }: HeroSele
       )}
 
       {/* Heroes grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
         {filteredHeroes.map(hero => (
           <div
             key={hero.id}
@@ -109,19 +145,35 @@ export default function HeroSelection({ onHeroSelect, selectedHeroes }: HeroSele
             className={`
               cursor-pointer bg-gray-900 rounded-md overflow-hidden transition-all
               hover:transform hover:scale-105 hover:shadow-lg
-              ${isHeroSelected(hero.id) ? 'opacity-50 border-2 border-red-500' : 'opacity-100 border border-gray-700'}
+              ${isHeroSelected(hero.id) ? 'ring-2 ring-red-500' : 'ring-1 ring-gray-700'}
             `}
           >
+            <div className="relative h-24 overflow-hidden bg-gradient-to-b from-transparent to-gray-900">
+              <Image
+                src={getHeroImageUrl(hero.id)}
+                alt={hero.name}
+                width={100}
+                height={100}
+                className="object-cover w-full h-full"
+                onError={(e) => {
+                  // If the image fails to load, replace with a generic hero silhouette
+                  e.currentTarget.src = '/hero-placeholder.png';
+                }}
+              />
+              {isHeroSelected(hero.id) && (
+                <div className="absolute inset-0 bg-red-900 bg-opacity-30 flex items-center justify-center">
+                  <div className="bg-red-500 rounded-full p-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                </div>
+              )}
+            </div>
             <div className="p-2 text-center">
-              <h3 className="text-sm font-semibold mb-1">{hero.name}</h3>
-              <div className="flex justify-center gap-1 text-xs">
-                <span className={`
-                  px-1 rounded
-                  ${hero.attribute === 'strength' ? 'bg-red-900 text-red-300' : 
-                    hero.attribute === 'agility' ? 'bg-green-900 text-green-300' : 
-                    hero.attribute === 'intelligence' ? 'bg-blue-900 text-blue-300' : 
-                    'bg-purple-900 text-purple-300'}
-                `}>
+              <h3 className="text-sm font-semibold">{hero.name}</h3>
+              <div className="flex justify-center gap-1 text-xs mt-1">
+                <span className={`px-1 rounded ${getAttributeColor(hero.attribute)}`}>
                   {hero.attribute.substring(0, 3).toUpperCase()}
                 </span>
                 <span className="bg-gray-800 px-1 rounded">

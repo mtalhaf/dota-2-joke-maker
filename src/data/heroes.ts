@@ -152,6 +152,18 @@ export const heroes: Hero[] = [
       'DK players: The most reliable, least dramatic people in Dota.',
       'Press R to win lane.'
     ],
+    relationships: [
+      {
+        heroId: 'winter_wyvern',
+        type: 'rival',
+        description: 'Competition for who is the better dragon'
+      },
+      {
+        heroId: 'lina',
+        type: 'enemy',
+        description: 'Her fire damage is effective against him'
+      }
+    ],
     imageUrl: '/images/heroes/dragon_knight.jpg'
   },
   {
@@ -172,7 +184,7 @@ export const heroes: Hero[] = [
       },
       {
         name: 'Great Cleave',
-        description: 'Sven's attacks cleave to hit nearby units.',
+        description: 'Sven\'s attacks cleave to hit nearby units.',
         isSignature: false,
       },
     ],
@@ -190,6 +202,18 @@ export const heroes: Hero[] = [
       'Press R to win teamfight',
       'One-shot wonder',
       'Two-button hero: Blink + R'
+    ],
+    relationships: [
+      {
+        heroId: 'juggernaut',
+        type: 'rival',
+        description: 'Competing for who can cleave better'
+      },
+      {
+        heroId: 'magnus',
+        type: 'friend',
+        description: 'Magnus empowers Sven for even more cleave damage'
+      }
     ],
     imageUrl: '/images/heroes/sven.jpg'
   },
@@ -289,6 +313,18 @@ export const heroes: Hero[] = [
       'Ult is ready = free kill',
       'Casually pushing: "My goals are beyond your understanding"'
     ],
+    relationships: [
+      {
+        heroId: 'sven',
+        type: 'rival',
+        description: 'Battle of blades and fighting styles'
+      },
+      {
+        heroId: 'crystal_maiden',
+        type: 'enemy',
+        description: 'Easy Omnislash target'
+      }
+    ],
     imageUrl: '/images/heroes/juggernaut.jpg'
   },
   {
@@ -329,6 +365,18 @@ export const heroes: Hero[] = [
       'HOHO HAHA trauma flashbacks',
       'Stands in the back and does nothing but right-click',
       'The hero everyone loves to hate'
+    ],
+    relationships: [
+      {
+        heroId: 'pudge',
+        type: 'enemy',
+        description: 'Pudge loves to hook Sniper in the backlines'
+      },
+      {
+        heroId: 'clockwerk',
+        type: 'enemy',
+        description: 'Clockwerk can easily reach the backlines to kill Sniper'
+      }
     ],
     imageUrl: '/images/heroes/sniper.jpg'
   },
@@ -372,6 +420,18 @@ export const heroes: Hero[] = [
       'CM is so slow that Techies mines expire before she crosses them',
       'The ward bot who dreams of carrying',
       'Freezing Field? More like "Please Kill Me" Field'
+    ],
+    relationships: [
+      {
+        heroId: 'anti_mage',
+        type: 'enemy',
+        description: 'Anti-Mage\'s Mana Void can destroy Lion after using all his spells'
+      },
+      {
+        heroId: 'crystal_maiden',
+        type: 'friend',
+        description: 'Fellow support who provides mana regen for his spells'
+      }
     ],
     imageUrl: '/images/heroes/crystal_maiden.jpg'
   },
@@ -429,6 +489,18 @@ export const heroes: Hero[] = [
       'Types "?" after landing a basic combo',
       '"I play Invoker" = "I think I\'m Miracle-"'
     ],
+    relationships: [
+      {
+        heroId: 'anti_mage',
+        type: 'enemy',
+        description: 'Anti-Mage counters spell casters like Invoker'
+      },
+      {
+        heroId: 'rubick',
+        type: 'rival',
+        description: 'Both are spell masters trying to prove superiority'
+      }
+    ],
     imageUrl: '/images/heroes/invoker.jpg'
   },
   {
@@ -455,7 +527,7 @@ export const heroes: Hero[] = [
     ],
     phrases: [
       'Go to hell and back and back to hell and back!',
-      'I've been to hell and back, and back to hell and back.',
+      'I\'ve been to hell and back, and back to hell and back.',
       'Ah, sweet suffering!',
       'Feel my claws in your back!'
     ],
@@ -469,6 +541,18 @@ export const heroes: Hero[] = [
       'The ultimate kill stealer',
       '"It\'s not kill stealing, it\'s kill securing"',
       'Support with more kills than the carry'
+    ],
+    relationships: [
+      {
+        heroId: 'anti_mage',
+        type: 'enemy',
+        description: 'Anti-Mage\'s Mana Void can destroy Lion after using all his spells'
+      },
+      {
+        heroId: 'crystal_maiden',
+        type: 'friend',
+        description: 'Fellow support who provides mana regen for his spells'
+      }
     ],
     imageUrl: '/images/heroes/lion.jpg'
   },
@@ -518,6 +602,18 @@ export const heroes: Hero[] = [
       'Core that buys one ward and claims to be a support',
       'Misses every Powershot but lands every blind Shackleshot'
     ],
+    relationships: [
+      {
+        heroId: 'pudge',
+        type: 'enemy',
+        description: 'Can easily escape Pudge with Windrun'
+      },
+      {
+        heroId: 'juggernaut',
+        type: 'rival',
+        description: 'Both have high mobility and damage output'
+      }
+    ],
     imageUrl: '/images/heroes/windranger.jpg'
   },
   {
@@ -555,9 +651,21 @@ export const heroes: Hero[] = [
       'Makes flashy plays that accomplish nothing'
     ],
     memes: [
-      'Too many buttons, not enough brains',
-      'The epitome of "looks cool doing nothing"',
-      'The hero everyone picks after watching a pro montage'
+      'The last spirit brother to join Dota.',
+      'Mysteriously disappears when enemies approach.',
+      'Void Spirit\'s favorite band? Dissidence at the Disco.'
+    ],
+    relationships: [
+      {
+        heroId: 'storm_spirit',
+        type: 'friend',
+        description: 'Fellow spirit brother'
+      },
+      {
+        heroId: 'ember_spirit',
+        type: 'friend',
+        description: 'Spirit brother with similar mobility'
+      }
     ],
     imageUrl: '/images/heroes/void_spirit.jpg'
   }

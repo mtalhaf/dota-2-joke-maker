@@ -3,7 +3,8 @@
 import Image from "next/image";
 import { useState } from "react";
 import HeroSelection from "@/components/HeroSelection";
-import { Hero } from "@/types";
+import ScenarioSelection from "@/components/ScenarioSelection";
+import { Hero, Scenario } from "@/types";
 import { heroes } from "@/data";
 
 export default function Home() {
@@ -11,6 +12,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [selectedHeroes, setSelectedHeroes] = useState<Hero[]>([]);
+  const [selectedScenario, setSelectedScenario] = useState<Scenario | null>(null);
 
   const handleHeroSelect = (hero: Hero) => {
     setSelectedHeroes([...selectedHeroes, hero]);
@@ -18,6 +20,10 @@ export default function Home() {
 
   const handleHeroDeselect = (heroId: string) => {
     setSelectedHeroes(selectedHeroes.filter(hero => hero.id !== heroId));
+  };
+
+  const handleScenarioSelect = (scenario: Scenario | null) => {
+    setSelectedScenario(scenario);
   };
 
   const generateJoke = async () => {
@@ -39,6 +45,7 @@ export default function Home() {
         },
         body: JSON.stringify({
           heroes: selectedHeroes,
+          scenario: selectedScenario,
         }),
       });
 
@@ -53,6 +60,52 @@ export default function Home() {
       setError('Failed to generate a joke. Please try again.');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const saveJoke = () => {
+    if (!joke) return;
+    
+    // Create saved jokes array in localStorage if it doesn't exist
+    const savedJokes = JSON.parse(localStorage.getItem('savedJokes') || '[]');
+    
+    // Add the current joke with timestamp and hero info
+    savedJokes.push({
+      text: joke,
+      timestamp: new Date().toISOString(),
+      heroes: selectedHeroes.map(h => h.name),
+      scenario: selectedScenario?.name || 'General',
+    });
+    
+    // Save back to localStorage
+    localStorage.setItem('savedJokes', JSON.stringify(savedJokes));
+    
+    // Show a brief confirmation
+    alert('Joke saved to your favorites!');
+  };
+
+  const shareJoke = () => {
+    if (!joke) return;
+    
+    // Create a shareable text that includes the joke and hero names
+    const heroNames = selectedHeroes.map(h => h.name).join(', ');
+    const shareText = `Check out this Dota 2 joke about ${heroNames}:\n\n"${joke}"\n\nGenerated at dota-2-joke-maker-mtalhaf.vercel.app`;
+    
+    // Use the navigator share API if available
+    if (navigator.share) {
+      navigator.share({
+        title: 'Dota 2 Joke',
+        text: shareText,
+      }).catch(err => {
+        console.error('Error sharing:', err);
+      });
+    } else {
+      // Fallback to clipboard copy
+      navigator.clipboard.writeText(shareText).then(() => {
+        alert('Joke copied to clipboard!');
+      }).catch(err => {
+        console.error('Failed to copy:', err);
+      });
     }
   };
 
@@ -98,8 +151,15 @@ export default function Home() {
             </div>
           )}
 
+          {/* Scenario Selection */}
+          <ScenarioSelection
+            onScenarioSelect={handleScenarioSelect}
+            selectedScenario={selectedScenario}
+            heroCount={selectedHeroes.length}
+          />
+
           {/* Joke display area */}
-          <div className="min-h-[200px] bg-gray-900 rounded-lg p-6 mb-6 flex items-center justify-center text-center">
+          <div className="min-h-[200px] bg-gray-900 rounded-lg p-6 mb-6 flex flex-col items-center justify-center text-center">
             {loading ? (
               <div className="text-center">
                 <div className="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-red-500 mb-4"></div>
@@ -108,10 +168,26 @@ export default function Home() {
             ) : error ? (
               <p className="text-red-400">{error}</p>
             ) : joke ? (
-              <p className="text-xl">{joke}</p>
+              <>
+                <p className="text-xl mb-4">{joke}</p>
+                <div className="flex space-x-4">
+                  <button 
+                    onClick={saveJoke}
+                    className="bg-blue-700 hover:bg-blue-600 text-white px-4 py-2 rounded-full text-sm flex items-center"
+                  >
+                    <span className="mr-2">💾</span> Save Joke
+                  </button>
+                  <button 
+                    onClick={shareJoke}
+                    className="bg-green-700 hover:bg-green-600 text-white px-4 py-2 rounded-full text-sm flex items-center"
+                  >
+                    <span className="mr-2">📱</span> Share Joke
+                  </button>
+                </div>
+              </>
             ) : (
               <p className="text-xl italic">
-                Select heroes and generate a joke!
+                Select heroes and a scenario, then generate a joke!
               </p>
             )}
           </div>

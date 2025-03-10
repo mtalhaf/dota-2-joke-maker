@@ -4,7 +4,7 @@
 export interface Hero {
   id: string;
   name: string;
-  attribute: 'strength' | 'agility' | 'intelligence';
+  attribute: 'strength' | 'agility' | 'intelligence' | 'universal';
   roles: string[];
   abilities: Ability[];
   phrases: string[];
@@ -35,7 +35,7 @@ export interface Relationship {
 /**
  * Hero attribute type
  */
-export type HeroAttribute = 'strength' | 'agility' | 'intelligence';
+export type HeroAttribute = 'strength' | 'agility' | 'intelligence' | 'universal';
 
 /**
  * Hero role type
