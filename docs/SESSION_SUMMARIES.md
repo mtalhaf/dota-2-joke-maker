@@ -72,4 +72,27 @@ This document tracks the progress made during each work session on the Dota 2 Jo
 - Add scenario selection dropdown
 - Create joke history to save generated jokes
 - Add sharing functionality
-- Enhance mobile responsiveness 
+- Enhance mobile responsiveness
+
+## March 10, 2023 - Hero Selection Component and Expanded Hero List
+
+### Completed
+- Expanded the hero data with 10 popular Dota 2 heroes from all attributes
+- Created a hero selection component with filtering and search capabilities
+- Integrated the hero selection into the main page
+- Added the ability to select multiple heroes for joke generation
+- Updated the joke generation logic to use selected heroes
+
+### Technical Details
+- Built a responsive hero grid with attribute-based filtering
+- Added search functionality for finding specific heroes
+- Implemented visual feedback for selected heroes
+- Created hero attribute badges with appropriate colors
+- Added hero deselection functionality
+
+### Next Steps
+- Add scenario selection component
+- Implement hero images and improve hero card visuals
+- Create a "random hero" selection option
+- Add ability to save favorite jokes
+- Implement joke sharing functionality 
