@@ -182,27 +182,6 @@ export default function Home() {
             selectedHeroes={selectedHeroes} 
           />
 
-          {/* Selected Heroes Bar */}
-          {selectedHeroes.length > 0 && (
-            <div className="bg-gray-800 rounded-lg p-4 mb-6 flex flex-wrap items-center">
-              <div className="mr-2 text-gray-400">Selected:</div>
-              {selectedHeroes.map(hero => (
-                <div 
-                  key={hero.id} 
-                  className="bg-gray-700 rounded-full px-3 py-1 m-1 text-sm flex items-center"
-                >
-                  {hero.name}
-                  <button 
-                    onClick={() => handleHeroDeselect(hero.id)}
-                    className="ml-2 text-red-400 hover:text-red-300"
-                  >
-                    ✕
-                  </button>
-                </div>
-              ))}
-            </div>
-          )}
-
           {/* Scenario Selection */}
           <ScenarioSelection
             onScenarioSelect={handleScenarioSelect}

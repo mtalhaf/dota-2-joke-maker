@@ -8,6 +8,25 @@ interface ScenarioSelectionProps {
   heroCount: number;
 }
 
+// Get background color based on difficulty
+const getDifficultyColor = (difficulty: string): string => {
+  switch (difficulty) {
+    case 'beginner':
+      return 'bg-green-800';
+    case 'intermediate':
+      return 'bg-yellow-700';
+    case 'advanced':
+      return 'bg-red-700';
+    default:
+      return 'bg-gray-700';
+  }
+};
+
+// Get the first letter of the scenario name
+const getScenarioInitial = (name: string): string => {
+  return name.charAt(0).toUpperCase();
+};
+
 export default function ScenarioSelection({ 
   onScenarioSelect, 
   selectedScenario, 
@@ -96,31 +115,40 @@ export default function ScenarioSelection({
             className={`
               p-4 rounded-lg cursor-pointer transition-all duration-300
               ${selectedScenario?.id === scenario.id 
-                ? 'bg-red-900 border-2 border-red-500' 
+                ? 'bg-gray-800 border-2 border-red-500' 
                 : 'bg-gray-700 hover:bg-gray-600 border-2 border-transparent'}
             `}
             onClick={() => onScenarioSelect(scenario)}
           >
-            <div className="flex justify-between items-start">
-              <h3 className="text-lg font-semibold">{scenario.name}</h3>
-              <div className="flex">
-                {scenario.heroCount !== null && (
-                  <span className="bg-blue-800 text-xs px-2 py-1 rounded text-blue-100">
-                    {scenario.heroCount} {scenario.heroCount === 1 ? 'hero' : 'heroes'}
-                  </span>
-                )}
+            <div className="flex items-start">
+              <div 
+                className={`w-10 h-10 flex items-center justify-center rounded-full mr-3 ${getDifficultyColor(scenario.difficulty)}`}
+              >
+                <span className="text-white font-semibold">{getScenarioInitial(scenario.name)}</span>
               </div>
-            </div>
-            <p className="text-sm text-gray-300 mt-1">{scenario.description}</p>
-            <div className="flex flex-wrap mt-2">
-              {scenario.tags.map(tag => (
-                <span 
-                  key={tag} 
-                  className="bg-gray-800 text-xs px-2 py-1 rounded-full text-gray-300 mr-1 mb-1"
-                >
-                  {tag}
-                </span>
-              ))}
+              <div className="flex-1">
+                <div className="flex justify-between items-start">
+                  <h3 className="text-lg font-semibold">{scenario.name}</h3>
+                  <div className="flex">
+                    {scenario.heroCount !== null && (
+                      <span className="bg-blue-800 text-xs px-2 py-1 rounded text-blue-100">
+                        {scenario.heroCount} {scenario.heroCount === 1 ? 'hero' : 'heroes'}
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <p className="text-sm text-gray-300 mt-1">{scenario.description}</p>
+                <div className="flex flex-wrap mt-2">
+                  {scenario.tags.map(tag => (
+                    <span 
+                      key={tag} 
+                      className="bg-gray-800 text-xs px-2 py-1 rounded-full text-gray-300 mr-1 mb-1"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         ))}
