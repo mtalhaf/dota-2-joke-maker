@@ -7,10 +7,11 @@ import { heroes } from '../data';
 
 interface HeroSelectionProps {
   onHeroSelect: (hero: Hero) => void;
+  onHeroDeselect: (heroId: string) => void;
   selectedHeroes: Hero[];
 }
 
-export default function HeroSelection({ onHeroSelect, selectedHeroes }: HeroSelectionProps) {
+export default function HeroSelection({ onHeroSelect, onHeroDeselect, selectedHeroes }: HeroSelectionProps) {
   const [filter, setFilter] = useState<string>('all');
   const [searchTerm, setSearchTerm] = useState<string>('');
 
@@ -44,10 +45,20 @@ export default function HeroSelection({ onHeroSelect, selectedHeroes }: HeroSele
     onHeroSelect(availableHeroes[randomIndex]);
   };
 
-  // Get the hero image URL
-  const getHeroImageUrl = (heroId: string) => {
-    // Try to use the actual hero image if it exists, otherwise use a placeholder
-    return `/images/heroes/${heroId.toLowerCase()}.png`;
+  // Use hero's first letter as a placeholder
+  const getHeroInitial = (heroName: string) => {
+    return heroName.charAt(0);
+  };
+
+  // Get the background color for hero avatar based on attribute
+  const getHeroBgColor = (attribute: string) => {
+    switch(attribute) {
+      case 'strength': return 'bg-red-800';
+      case 'agility': return 'bg-green-800';
+      case 'intelligence': return 'bg-blue-800';
+      case 'universal': return 'bg-purple-800';
+      default: return 'bg-gray-800';
+    }
   };
 
   // Get attribute color
@@ -127,8 +138,14 @@ export default function HeroSelection({ onHeroSelect, selectedHeroes }: HeroSele
           <div className="flex flex-wrap gap-2">
             {selectedHeroes.map(hero => (
               <div key={hero.id} className="relative inline-block">
-                <div className="w-16 h-16 bg-gray-900 rounded-md flex items-center justify-center overflow-hidden border-2 border-red-500">
-                  <div className="text-xs text-center p-1">{hero.name}</div>
+                <div 
+                  className={`w-16 h-16 ${getHeroBgColor(hero.attribute)} rounded-md flex items-center justify-center overflow-hidden border-2 border-red-500`}
+                  onClick={() => onHeroDeselect(hero.id)}
+                >
+                  <div className="text-center">
+                    <div className="text-xl font-bold text-white opacity-70">{getHeroInitial(hero.name)}</div>
+                    <div className="text-xs text-white opacity-90">{hero.name}</div>
+                  </div>
                 </div>
               </div>
             ))}
@@ -148,18 +165,14 @@ export default function HeroSelection({ onHeroSelect, selectedHeroes }: HeroSele
               ${isHeroSelected(hero.id) ? 'ring-2 ring-red-500' : 'ring-1 ring-gray-700'}
             `}
           >
-            <div className="relative h-24 overflow-hidden bg-gradient-to-b from-transparent to-gray-900">
-              <Image
-                src={getHeroImageUrl(hero.id)}
-                alt={hero.name}
-                width={100}
-                height={100}
-                className="object-cover w-full h-full"
-                onError={(e) => {
-                  // If the image fails to load, replace with a generic hero silhouette
-                  e.currentTarget.src = '/hero-placeholder.png';
-                }}
-              />
+            <div className={`relative h-24 overflow-hidden ${getHeroBgColor(hero.attribute)}`}>
+              {/* Hero placeholder with initial */}
+              <div className="flex items-center justify-center h-full">
+                <span className="text-3xl font-bold text-white opacity-50">
+                  {getHeroInitial(hero.name)}
+                </span>
+              </div>
+              
               {isHeroSelected(hero.id) && (
                 <div className="absolute inset-0 bg-red-900 bg-opacity-30 flex items-center justify-center">
                   <div className="bg-red-500 rounded-full p-1">
@@ -170,6 +183,7 @@ export default function HeroSelection({ onHeroSelect, selectedHeroes }: HeroSele
                 </div>
               )}
             </div>
+            
             <div className="p-2 text-center">
               <h3 className="text-sm font-semibold">{hero.name}</h3>
               <div className="flex justify-center gap-1 text-xs mt-1">

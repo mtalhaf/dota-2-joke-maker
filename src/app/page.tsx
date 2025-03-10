@@ -4,8 +4,20 @@ import Image from "next/image";
 import { useState } from "react";
 import HeroSelection from "@/components/HeroSelection";
 import ScenarioSelection from "@/components/ScenarioSelection";
+import SavedJokesModal from "@/components/SavedJokesModal";
+import ThemeSwitcher from "@/components/ThemeSwitcher";
 import { Hero, Scenario } from "@/types";
 import { heroes } from "@/data";
+
+// Default theme styles
+const defaultTheme = {
+  id: 'default',
+  name: 'Radiant (Default)',
+  icon: '🌿',
+  background: 'bg-gradient-to-b from-gray-900 to-red-900',
+  accent: 'bg-red-700 hover:bg-red-600',
+  border: 'border-red-800'
+};
 
 export default function Home() {
   const [joke, setJoke] = useState<string | null>(null);
@@ -13,6 +25,8 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
   const [selectedHeroes, setSelectedHeroes] = useState<Hero[]>([]);
   const [selectedScenario, setSelectedScenario] = useState<Scenario | null>(null);
+  const [showSavedJokes, setShowSavedJokes] = useState(false);
+  const [theme, setTheme] = useState(defaultTheme);
 
   const handleHeroSelect = (hero: Hero) => {
     setSelectedHeroes([...selectedHeroes, hero]);
@@ -109,24 +123,62 @@ export default function Home() {
     }
   };
 
+  const selectRandomHeroes = () => {
+    // Clear currently selected heroes
+    setSelectedHeroes([]);
+    
+    // Determine how many heroes to select (1-3)
+    const count = Math.floor(Math.random() * 3) + 1;
+    
+    // Get a shuffled copy of the heroes array
+    const shuffledHeroes = [...heroes].sort(() => 0.5 - Math.random());
+    
+    // Select the first 'count' heroes
+    const randomSelection = shuffledHeroes.slice(0, count);
+    
+    // Update the state
+    setSelectedHeroes(randomSelection);
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-red-900 text-white">
+    <div className={`min-h-screen ${theme.background} text-white`}>
       {/* Dota 2 themed header */}
       <header className="pt-8 pb-6 text-center">
+        <div className="flex justify-end px-4 mb-4">
+          <ThemeSwitcher onThemeChange={setTheme} />
+        </div>
+      
         <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-red-600 to-red-300 bg-clip-text text-transparent">
           Dota 2 Joke Generator
         </h1>
         <p className="text-lg text-gray-300">
           Generating hilarious Dota 2 jokes powered by AI
         </p>
+        
+        {/* Main Action Buttons */}
+        <div className="flex flex-wrap justify-center gap-2 mt-4">
+          <button 
+            onClick={selectRandomHeroes}
+            className={`${theme.accent} text-white px-4 py-2 rounded-full text-sm flex items-center`}
+          >
+            <span className="mr-2">🎲</span> Random Heroes
+          </button>
+          <button 
+            onClick={() => setShowSavedJokes(true)}
+            className="bg-blue-700 hover:bg-blue-600 text-white px-4 py-2 rounded-full text-sm flex items-center"
+          >
+            <span className="mr-2">📚</span> View Saved Jokes
+          </button>
+        </div>
       </header>
 
       {/* Main content */}
       <main className="max-w-4xl mx-auto px-4 py-8">
-        <div className="bg-gray-800 bg-opacity-70 rounded-lg p-8 shadow-2xl border border-red-800">
+        <div className={`bg-gray-800 bg-opacity-70 rounded-lg p-8 shadow-2xl border ${theme.border}`}>
           {/* Hero Selection */}
           <HeroSelection 
             onHeroSelect={handleHeroSelect} 
+            onHeroDeselect={handleHeroDeselect}
             selectedHeroes={selectedHeroes} 
           />
 
@@ -162,7 +214,7 @@ export default function Home() {
           <div className="min-h-[200px] bg-gray-900 rounded-lg p-6 mb-6 flex flex-col items-center justify-center text-center">
             {loading ? (
               <div className="text-center">
-                <div className="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-red-500 mb-4"></div>
+                <div className={`inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-current mb-4`}></div>
                 <p className="text-xl">Generating your joke...</p>
               </div>
             ) : error ? (
@@ -195,7 +247,7 @@ export default function Home() {
           {/* Action buttons */}
           <div className="flex justify-center">
             <button 
-              className="bg-red-700 hover:bg-red-600 text-white font-bold py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed"
+              className={`${theme.accent} text-white font-bold py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg focus:outline-none focus:ring-2 focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed`}
               onClick={generateJoke}
               disabled={loading || selectedHeroes.length === 0}
             >
@@ -218,6 +270,12 @@ export default function Home() {
           </p>
         </div>
       </main>
+
+      {/* Saved Jokes Modal */}
+      <SavedJokesModal 
+        isOpen={showSavedJokes} 
+        onClose={() => setShowSavedJokes(false)} 
+      />
     </div>
   );
 }
