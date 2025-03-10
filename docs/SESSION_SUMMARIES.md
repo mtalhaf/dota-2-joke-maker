@@ -27,4 +27,26 @@ This document tracks the progress made during each work session on the Dota 2 Jo
 - Develop hero selection component
 - Implement scenario selection component
 - Build joke display component
-- Connect components in a basic working flow 
+- Connect components in a basic working flow
+
+## March 10, 2023 - Process Setup and Deployment
+
+### Completed
+- Added session summaries to our workflow
+- Updated PROJECT_WORKFLOW.md to include session summary practices
+- Configured Vercel environment with OpenAI API key
+- Added title and basic UI elements to homepage
+- Fixed directory structure issues
+- Redeployed to Vercel with updated configuration
+
+### Technical Details
+- Set up secure environment variable for OpenAI API key in Vercel
+- Verified the API integration is working correctly
+- Established process for documenting session progress
+- Created basic API route structure for joke generation
+
+### Next Steps
+- Focus on building the hero selection component
+- Implement the scenario selection UI
+- Create a joke display component
+- Connect the frontend UI with the backend joke generation functionality 
