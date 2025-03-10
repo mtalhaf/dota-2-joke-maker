@@ -16,8 +16,20 @@ This document outlines our agreed ways of working for the Dota 2 Joke Generator 
 - Each task should be assigned to a team member
 - Tasks should be updated at the end of each work session
 - When a task is completed, move it from "Current Sprint" to "Completed Tasks" and update the date
+- Session summaries should be added to SESSION_SUMMARIES.md at the end of each work day and whenever significant progress is made
 
-### 3. Code Review Process
+### 3. Session Summaries
+- All development sessions should be documented in SESSION_SUMMARIES.md
+- Summaries should include:
+  - Date and focus of the session
+  - Tasks completed during the session
+  - Technical details or decisions made
+  - Challenges encountered and solutions implemented
+  - Next steps or planned work
+- Summaries help maintain continuity between work sessions and provide a historical record of project progress
+- Commit session summaries before ending each work session
+
+### 4. Code Review Process
 - All code changes require at least one review
 - Code reviews should focus on:
   - Code quality and adherence to standards
@@ -71,7 +83,13 @@ When completing a task, follow this process:
    - Add the completion date
    - Add any notes or lessons learned
 
-5. **Deployment (if applicable)**
+5. **Document in Session Summary**
+   - Add details of the completed work to SESSION_SUMMARIES.md
+   - Include technical details, challenges, and solutions
+   - Document any important decisions made
+   - Outline next steps or related tasks
+
+6. **Deployment (if applicable)**
    - Deploy to development/staging environment
    - Verify deployment was successful
    - Document any deployment-specific steps
